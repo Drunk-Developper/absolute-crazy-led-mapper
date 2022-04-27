@@ -34,6 +34,7 @@ final int MASK_HEIGHT = 1200;
 	we have to pay attention to the ALPHA byte 
 	cause we want to display masks at every step 
 	and have only positive values for colors/pixelId
+	In java the sign of an Integer is coded by the most left bit
 
 	This is just for testing, 
 	so I did tweak a bit ( -1 * ) to build pixelMask and mappedMask
@@ -67,6 +68,7 @@ public void setup(){
 			int sX = round(vectorMask.screenX(x, 0));
 			int sY = round(vectorMask.screenY(x, 0));
 			int pixelID = sX + sY * vectorMask.width;
+			// justification of mult by -1 at the top comment 
 			pixelMask.pixels[pixelID] = -1 * (ledCounter++);
 		}
 		vectorMask.popMatrix();
@@ -76,6 +78,7 @@ public void setup(){
 	// invert coord and color;
 	mappedMask.loadPixels();
 	for(int i = 0 ; i < pixelMask.pixels.length ; i ++){
+		// justification of mult by -1 at the top comment
 		mappedMask.pixels[-1 * pixelMask.pixels[i]] = -1 * i;
 	}
 	mappedMask.updatePixels();

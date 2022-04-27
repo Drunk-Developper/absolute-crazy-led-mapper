@@ -20,6 +20,9 @@ final int MASK_HEIGHT = 1200;
 	and have only positive values for colors/pixelId
 	In java the sign of an Integer is coded by the most left bit
 
+	It means the most visible colors are coded by negative Integers
+	which is very sad for this exemple :'(
+
 	This is just for testing, 
 	so I did tweak a bit ( -1 * ) to build pixelMask and mappedMask
 */
