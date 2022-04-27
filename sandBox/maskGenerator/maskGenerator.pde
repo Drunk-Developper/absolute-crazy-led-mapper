@@ -28,6 +28,9 @@ final int MASK_HEIGHT = 1200;
 
 void setup(){
 	size(1920, 1080);
+	textAlign(CENTER, BOTTOM);
+	textSize(60);
+
 	vectorMask = createGraphics(MASK_WIDTH, MASK_HEIGHT);
 	pixelMask = createImage(MASK_WIDTH, MASK_HEIGHT, ARGB);
 	mappedMask = createImage(MASK_WIDTH, MASK_HEIGHT, ARGB);
@@ -61,6 +64,8 @@ void setup(){
 	}
 	vectorMask.endDraw();
 	pixelMask.updatePixels();
+
+
 	// invert coord and color;
 	mappedMask.loadPixels();
 	for(int i = 0 ; i < pixelMask.pixels.length ; i ++){
@@ -68,16 +73,16 @@ void setup(){
 		mappedMask.pixels[-1 * pixelMask.pixels[i]] = -1 * i;
 	}
 	mappedMask.updatePixels();
+	
 }
 
 void draw(){
-	drawSRC();
+	updateSrc();
+	updateMappedOut();
+
 	background(0);
 	scale(0.3333);
-	textAlign(CENTER, BOTTOM);
-	textSize(60);
 	
-
 	image(vectorMask, 0, 0);
 	text("vectorMask", width*0.5, height);
 
@@ -90,6 +95,13 @@ void draw(){
 	image(src, 0, height);
 	text("src", width*0.5, height * 2);
 
+	image(mappedOutput, width, height);
+	text("mappedOutput", width*1.5, height * 2);
+}
+
+void updateMappedOut(){
+	src.loadPixels();
+	mappedMask.loadPixels();
 	for(int i = 0 ; i < mappedMask.pixels.length ; i ++){
 		int pixelId = abs(mappedMask.pixels[i]);
 		if(pixelId != 0){
@@ -97,15 +109,9 @@ void draw(){
 		}
 	}
 	mappedOutput.updatePixels();
-
-	image(mappedOutput, width, height);
-	text("mappedOutput", width*1.5, height * 2);
-
 }
 
-
-
-void drawSRC(){
+void updateSrc(){
 	src.beginDraw();
 	src.background(50, 33, 70);
 	src.noStroke();
