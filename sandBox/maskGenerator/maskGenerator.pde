@@ -11,18 +11,17 @@ final int MASK_WIDTH = 1920;
 final int MASK_HEIGHT = 1200;
 
 /*
-	Inside Processing color are store as int 
+	Processing store color as Integer ( 4 Bytes )
 	[0xFF]  [0xFF] [0xFF]  [0xFF]
 	[ALPHA] [RED]  [GREEN] [BLUE]
-	as we use color as pixelId and reverse
-	we have to pay attention to the ALPHA byte 
-	cause we want to display masks at every step 
-	and have only positive values for colors/pixelId
-	In java the sign of an Integer is coded by the most left bit
-
+	In java the sign of an Integer is coded by the left most bit
 	It means the most visible colors are coded by negative Integers
 	which is very sad for this exemple :'(
 
+	The idea is to use color as pixelId and reverse
+	So we have to pay attention to the ALPHA byte 
+	Of course, as we love pictures, we want to have visible masks 
+	and have only positive values for colors/pixelId
 	This is just for testing, 
 	so I did tweak a bit ( -1 * ) to build pixelMask and mappedMask
 */
