@@ -56,3 +56,8 @@ This script will output a 1xN png in the same folder.
 
 5. with dependencies installed (`npm i`) run generate-mask.sh (`node generate-mask.js`).
 6. you get the mask as a PNG file
+
+# TODO:
+
+[ ] ISF shader to load in Orage
+[ ] Add artnet suppor to Orage (probably using [Cinder-LibArtnet](https://github.com/naychrist/Cinder-LibArtnet))
