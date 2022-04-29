@@ -1,27 +1,8 @@
 /** Genereate mask from an array of line */
 
-const lines = [
-  // {
-  //   start: [x, y],
-  //   end: [x, y],
-  //   type: "line",
-  //   pixelsCount: p,
-  // },
-  {
-    start: [10, 10],
-    end: [50, 50],
-    type: "line",
-    pixelCount: 10,
-    pixelAddressStartsAt: 1,
-  },
-  {
-    start: [80, 150],
-    end: [55, 55],
-    type: "line",
-    pixelCount: 10,
-    pixelAddressStartsAt: 11,
-  },
-]
+const Jimp = require("jimp")
+
+const lines = require("./lines.json")
 
 /**
  * Compute the position of each pixel along the line
@@ -42,16 +23,32 @@ const distributePixelsAlongLine = ({ start, end, pixelCount, pixelAddressStartsA
 /**
  * Encode Position as color
  * Takes a position array [x, y] as input
- * Output a 24bit color representing the position
+ * Output a 32bit color representing the position (RGBA)
  * */
-const encodePositionAsColor = ([x, y]) => (x << 12) | (y >>> 0)
+const encodePositionAsColor = ([x, y]) => (x << 16) | (y >>> 0)
+
+/** Generate a 1xN png file from pixels */
+const makePngFromPixels = (pixels) => {
+  const image = new Jimp(pixels.length + 1, 1, function (err, image) {
+    if (err) throw err
+
+    pixels.forEach((color, x) => {
+      image.setPixelColor(color, x, 0)
+    })
+
+    image.write("mask.png", (err) => {
+      if (err) throw err
+    })
+  })
+}
 
 // process lines
-const mask = lines
-  .map((line) => distributePixelsAlongLine(line))
-  .flat()
-  .sort((pixelA, pixelB) => pixelA.address - pixelB.address)
-  .map((pixel) => pixel.position)
-  .map((pixel) => encodePositionAsColor(pixel))
-
-console.log(mask)
+makePngFromPixels(
+  lines
+    .map((line) => distributePixelsAlongLine(line))
+    .flat()
+    // TODO: sort is not enough, we need to fill potential gaps between the end of a strip and the start of another
+    .sort((pixelA, pixelB) => pixelA.address - pixelB.address)
+    .map((pixel) => pixel.position)
+    .map((pixel) => encodePositionAsColor(pixel))
+)

@@ -19,9 +19,40 @@
 
 The shaders will run into [Orage](https://github.com/oogre/orage) as [ISF](https://isf.video/) gsls fragments.
 
-Encoding the position as a color is done by using the color as one 24 bits word : first 12 bits represent the X and last 12 bits represent Y.
-encoded = x << 12) | y // left shifting x 12 bits to the left, then adding the y bits to the right using a OR
-decodedX = encoded >> 12 // right shifting everything 12 bits
-decodedY = encoded & 4095 // applying a 000000000000111111111111 bitmask to drop the first 12 bits
+Encoding the position as a color is done by using the color as one 32 bits word : first 16 bits represent the X and last 16 bits represent Y.
+
+`encoded = x << 16) | y` // left shifting x 12 bits to the left, then adding the y bits to the right using a OR
+`decodedX = encoded >> 16` // right shifting everything 16 bits
+`decodedY = encoded & 65535` // applying a `00000000000000001111111111111111` bitmask to drop the first 16 bits
 
 # Usage
+
+1. In any drawing tools (photoshop, canvas, figma, gimp, ...), create a canvas of the pixel size of your shader
+2. Draw the position of the fixture
+3. With an inspector tool get the starting point and endind point of each of your fixture and note them down
+4. Manually create a json files containing your fixture such as :
+
+```json
+[
+  {
+    start: [x, y],
+    end: [x, y],
+    type: "line",
+    pixelsCount: integer,
+    pixelAddressStartsAt: integer
+  },
+]
+```
+
+note:
+
+- type:"line" represent a straight line, it is the only type currently available
+- `pixelsCount` is the quantity of pixel to put on that line, they're going to be equally distributed along the line, first pixel will be on start and last on end
+- `pixelAddressStartsAt` is the address of the first pixel of that fixture and it will be incremented for each pixel of the line. This will be used to determine the artnet address when sending on network. Beware that :
+  - You shouldn't have any overlap between your fixture (we don't test this, so it will provoke some weird behaviour)
+  - You (currently) cannot have gaps beween the end of a strip and the first address of the next
+
+This script will output a 1xN png in the same folder.
+
+5. with dependencies installed (`npm i`) run generate-mask.sh (`node generate-mask.js`).
+6. you get the mask as a PNG file
