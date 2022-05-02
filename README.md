@@ -21,9 +21,9 @@ The shaders will run into [Orage](https://github.com/oogre/orage) as [ISF](https
 
 Encoding the position as a color is done by using the color as one 32 bits word : first 16 bits represent the X and last 16 bits represent Y.
 
-`encoded = x << 16) | y` // left shifting x 12 bits to the left, then adding the y bits to the right using a OR
-`decodedX = encoded >> 16` // right shifting everything 16 bits
-`decodedY = encoded & 65535` // applying a `00000000000000001111111111111111` bitmask to drop the first 16 bits
+- `encoded = x << 16) | y` // left shifting x 12 bits to the left, then adding the y bits to the right using a OR
+- `decodedX = encoded >> 16` // right shifting everything 16 bits
+- `decodedY = encoded & 65535` // applying a `00000000000000001111111111111111` bitmask to drop the first 16 bits
 
 # Usage
 
