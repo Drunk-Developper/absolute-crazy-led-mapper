@@ -1,16 +1,9 @@
 [
   {
-    "start": [10, 10],
-    "end": [50, 50],
+    "start": [0, 0],
+    "end": [800, 600],
     "type": "line",
-    "pixelCount": 10,
+    "pixelCount": 120,
     "pixelAddressStartsAt": 1
-  },
-  {
-    "start": [80, 150],
-    "end": [55, 55],
-    "type": "line",
-    "pixelCount": 10,
-    "pixelAddressStartsAt": 11
   }
 ]

@@ -4,8 +4,8 @@ const Jimp = require("jimp")
 
 const lines = require("./lines.json")
 
-const width = 300;
-const height = 300;
+const width = 800;
+const height = 600;
 
 /**
  * Compute the position of each pixel along the line
@@ -32,6 +32,7 @@ const encodePositionAsColor = ([x, y]) => (x << 16) | (y >>> 0)
 
 /** Generate a 1xN png file from pixels */
 const makePngFromPixels = (pixels) => {
+  console.log(JSON.stringify(pixels))
   const image = new Jimp(pixels.length + 1, 1, function (err, image) {
     if (err) throw err
 
@@ -50,8 +51,7 @@ makePngFromPixels(
   lines
     .map((line) => distributePixelsAlongLine(line))
     .flat()
-    // TODO: sort is not enough, we need to fill potential gaps between the end of a strip and the start of another
-    .sort((pixelA, pixelB) => pixelA.address - pixelB.address)
+    // .sort((pixelA, pixelB) => pixelA.address - pixelB.address)
     .map((pixel) => pixel.position)
     .map((pixel) => encodePositionAsColor(pixel))
 )
