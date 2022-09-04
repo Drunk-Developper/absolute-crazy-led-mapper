@@ -33,17 +33,24 @@ const encodePositionAsColor = ([x, y]) => (x << 16) | (y >>> 0)
 /** Generate a 1xN png file from pixels */
 const makePngFromPixels = (pixels) => {
   console.log(JSON.stringify(pixels))
-  const image = new Jimp(pixels.length + 1, 1, function (err, image) {
-    if (err) throw err
+  console.log(JSON.stringify(pixels.map(pixel => {
+    const {r, g, b, a} = Jimp.intToRGBA(pixel)
+    return ([r, g, b, ])
+  }).flat()))
+  
+  // const image = new Jimp(pixels.length + 1, 1, function (err, image) {
+  //   if (err) throw err
 
-    pixels.forEach((color, x) => {
-      image.setPixelColor(color, x, 0)
-    })
+  //   // console.log
 
-    image.write("mask.png", (err) => {
-      if (err) throw err
-    })
-  })
+  //   // pixels.forEach((color, x) => {
+  //   //   image.setPixelColor(color, x, 0)
+  //   // })
+
+  //   // image.write("mask.png", (err) => {
+  //   //   if (err) throw err
+  //   // })
+  // })
 }
 
 // process lines
